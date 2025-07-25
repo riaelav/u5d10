@@ -21,6 +21,11 @@ public class EmployeeService {
                 .ifPresent(employee -> {
                     throw new BadRequestException("Email" + employee.getEmail() + "already used");
                 });
+
+        employeeRepository.findByUsername(payload.username())
+                .ifPresent(e -> {
+                    throw new BadRequestException("Username '" + e.getUsername() + "' is already taken.");
+                });
         Employee employee = new Employee(payload.username(), payload.firstName(), payload.lastName(), payload.email());
         employee.setProfileImage("https://ui-avatars.com/api/?name=" + payload.firstName() + "+" + payload.lastName());
         Employee savedEmployee = this.employeeRepository.save(employee);

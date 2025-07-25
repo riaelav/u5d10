@@ -18,7 +18,7 @@ public class Employee {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     @Column(name = "first_name", nullable = false)

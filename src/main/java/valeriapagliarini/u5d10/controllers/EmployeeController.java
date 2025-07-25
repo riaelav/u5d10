@@ -26,7 +26,6 @@ public class EmployeeController {
         return this.employeeService.findAll();
     }
 
-
     //POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,5 +69,6 @@ public class EmployeeController {
     public void findByIdAndDelete(@PathVariable Long employeeId) {
         employeeService.findByIdAndDelete(employeeId);
     }
+
 
 }
