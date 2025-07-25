@@ -11,5 +11,6 @@ public record TravelDTO(
 
         @NotNull(message = "Date is required")
         LocalDate date
+        
 ) {
 }

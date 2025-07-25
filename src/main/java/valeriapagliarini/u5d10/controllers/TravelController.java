@@ -47,8 +47,7 @@ public class TravelController {
 
     // PUT
     @PutMapping("/{travelId}")
-    public Travel updateTravel(@PathVariable Long travelId,
-                               @RequestBody @Validated TravelDTO payload,
+    public Travel updateTravel(@PathVariable Long travelId, @RequestBody @Validated TravelDTO payload,
                                BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             List<String> errors = validationResult.getFieldErrors().stream()
@@ -66,4 +65,8 @@ public class TravelController {
     public void deleteTravel(@PathVariable Long travelId) {
         travelService.findByIdAndDelete(travelId);
     }
+
+    //TODO PATCH PER LO STATUS
+
+
 }
