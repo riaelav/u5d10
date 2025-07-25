@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import valeriapagliarini.u5d10.entities.Employee;
 import valeriapagliarini.u5d10.exceptions.ValidationException;
 import valeriapagliarini.u5d10.payloads.EmployeeDTO;
@@ -68,6 +69,13 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable Long employeeId) {
         employeeService.findByIdAndDelete(employeeId);
+    }
+
+    //PATCH UPLOAD IMG
+    @PatchMapping("/{employeeId}/avatar")
+    public String uploadImage(@PathVariable Long employeeId,
+                              @RequestParam("avatar") MultipartFile file) {
+        return this.employeeService.uploadAvatar(employeeId, file);
     }
 
 

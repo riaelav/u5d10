@@ -1,7 +1,10 @@
 package valeriapagliarini.u5d10.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import valeriapagliarini.u5d10.entities.Employee;
 import valeriapagliarini.u5d10.exceptions.BadRequestException;
 import valeriapagliarini.u5d10.exceptions.NotFoundException;
@@ -9,12 +12,15 @@ import valeriapagliarini.u5d10.payloads.EmployeeDTO;
 import valeriapagliarini.u5d10.repositories.EmployeeRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployeeService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    private Cloudinary imgUploader;
 
     public Employee save(EmployeeDTO payload) {
         this.employeeRepository.findByEmail(payload.email())
@@ -62,5 +68,19 @@ public class EmployeeService {
         this.employeeRepository.delete(found);
     }
 
+    //UPLOAD IMMAGINE
 
+    public String uploadAvatar(Long employeeId, MultipartFile file) {
+        try {
+            Map result = imgUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            String imageURL = (String) result.get("url");
+
+            Employee employee = this.findById(employeeId);
+            employee.setProfileImage(imageURL);
+            this.employeeRepository.save(employee);
+            return imageURL;
+        } catch (Exception e) {
+            throw new BadRequestException("Sorry, problems with saving of the file");
+        }
+    }
 }
