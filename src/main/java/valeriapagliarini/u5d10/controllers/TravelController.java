@@ -1,5 +1,6 @@
 package valeriapagliarini.u5d10.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import valeriapagliarini.u5d10.entities.Travel;
 import valeriapagliarini.u5d10.exceptions.ValidationException;
 import valeriapagliarini.u5d10.payloads.TravelDTO;
+import valeriapagliarini.u5d10.payloads.UpdateTravelStatusDTO;
 import valeriapagliarini.u5d10.services.TravelService;
 
 import java.util.List;
@@ -66,7 +68,18 @@ public class TravelController {
         travelService.findByIdAndDelete(travelId);
     }
 
-    //TODO PATCH PER LO STATUS
+    //PATCH
+    @PatchMapping("/{travelId}/status")
+    public Travel updateStatus(@PathVariable Long travelId, @RequestBody @Valid UpdateTravelStatusDTO payload,
+                               BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            List<String> errors = validationResult.getFieldErrors().stream()
+                    .map(fieldError -> fieldError.getDefaultMessage())
+                    .toList();
+            throw new ValidationException(errors);
+        }
 
+        return travelService.updateStatus(travelId, payload.status());
+    }
 
 }
