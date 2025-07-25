@@ -33,12 +33,11 @@ public class Employee {
     @Column(name = "profile_img")
     private String profileImage;
 
-    public Employee(String username, String firstName, String lastName, String email, String profileImage) {
+    public Employee(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.profileImage = profileImage;
     }
 
     @Override
@@ -49,7 +48,6 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", profileImage='" + profileImage + '\'' +
                 '}';
     }
 }
